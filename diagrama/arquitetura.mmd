@@ -1,0 +1,13 @@
+flowchart LR
+  Internet -->|TLS + CDN| WAF["WAF / OWASP CRS"]
+  WAF --> LB["Load Balancer"]
+  LB --> APP["App Node.js / containers"]
+  APP --> DB["PostgreSQL"]
+  APP -->|Logs| LOGS["Log Forwarder<br/>(Filebeat / Wazuh)"]
+  DB -->|Logs| LOGS
+  LOGS --> SIEM["SIEM / ELK / Wazuh"]
+  IAM["Identity (IAM, MFA, Vault)"] --> APP
+  SubnetOps["Management Network"] -->|SSH / Bastion| APP
+
+  style WAF fill:#f9f,stroke:#333,stroke-width:1px
+  style SIEM fill:#bbf,stroke:#333,stroke-width:1px
